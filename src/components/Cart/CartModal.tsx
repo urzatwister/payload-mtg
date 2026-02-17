@@ -16,11 +16,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
 
+import { Button } from '@/components/ui/button'
+import { Product } from '@/payload-types'
 import { DeleteItemButton } from './DeleteItemButton'
 import { EditItemQuantityButton } from './EditItemQuantityButton'
 import { OpenCartButton } from './OpenCart'
-import { Button } from '@/components/ui/button'
-import { Product } from '@/payload-types'
 
 export function CartModal() {
   const { cart } = useCart()
@@ -78,12 +78,12 @@ export function CartModal() {
                       : undefined
 
                   let image = firstGalleryImage || metaImage
-                  let price = product.priceInUSD
+                  let price = product.priceInSGD
 
                   const isVariant = Boolean(variant) && typeof variant === 'object'
 
                   if (isVariant) {
-                    price = variant?.priceInUSD
+                    price = variant?.priceInSGD
 
                     const imageVariant = product.gallery?.find((item) => {
                       if (!item.variantOption) return false

@@ -1,11 +1,11 @@
 'use client'
 import type { Media, Product } from '@/payload-types'
 
+import { GridTileImage } from '@/components/Grid/tile'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import AutoScroll from 'embla-carousel-auto-scroll'
 import Link from 'next/link'
 import React from 'react'
-import { GridTileImage } from '@/components/Grid/tile'
 
 export const CarouselClient: React.FC<{ products: Product[] }> = async ({ products }) => {
   if (!products?.length) return null
@@ -35,7 +35,7 @@ export const CarouselClient: React.FC<{ products: Product[] }> = async ({ produc
             <Link className="relative h-full w-full" href={`/products/${product.slug}`}>
               <GridTileImage
                 label={{
-                  amount: product.priceInUSD!,
+                  amount: product.priceInSGD!,
                   title: product.title,
                 }}
                 media={product.meta?.image as Media}

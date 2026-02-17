@@ -1,15 +1,15 @@
-import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
+import type { CollectionSlug, File, GlobalSlug, Payload, PayloadRequest } from 'payload'
 
+import { Address, Transaction, VariantOption } from '@/payload-types'
 import { contactFormData } from './contact-form'
 import { contactPageData } from './contact-page'
-import { productHatData } from './product-hat'
-import { productTshirtData, productTshirtVariant } from './product-tshirt'
 import { homePageData } from './home'
 import { imageHatData } from './image-hat'
+import { imageHero1Data } from './image-hero-1'
 import { imageTshirtBlackData } from './image-tshirt-black'
 import { imageTshirtWhiteData } from './image-tshirt-white'
-import { imageHero1Data } from './image-hero-1'
-import { Address, Transaction, VariantOption } from '@/payload-types'
+import { productHatData } from './product-hat'
+import { productTshirtData, productTshirtVariant } from './product-tshirt'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -356,7 +356,7 @@ export const seed = async ({
   const pendingTransaction = await payload.create({
     collection: 'transactions',
     data: {
-      currency: 'USD',
+      currency: 'SGD',
       customer: customer.id,
       paymentMethod: 'stripe',
       stripe: {
@@ -371,7 +371,7 @@ export const seed = async ({
   const succeededTransaction = await payload.create({
     collection: 'transactions',
     data: {
-      currency: 'USD',
+      currency: 'SGD',
       customer: customer.id,
       paymentMethod: 'stripe',
       stripe: {
@@ -396,7 +396,7 @@ export const seed = async ({
     collection: 'carts',
     data: {
       customer: customer.id,
-      currency: 'USD',
+      currency: 'SGD',
       items: [
         {
           product: productTshirt.id,
@@ -413,7 +413,7 @@ export const seed = async ({
   const abandonedCart = await payload.create({
     collection: 'carts',
     data: {
-      currency: 'USD',
+      currency: 'SGD',
       createdAt: oldTimestamp,
       items: [
         {
@@ -429,7 +429,7 @@ export const seed = async ({
     collection: 'carts',
     data: {
       customer: customer.id,
-      currency: 'USD',
+      currency: 'SGD',
       purchasedAt: new Date().toISOString(),
       subtotal: 7499,
       items: [
@@ -459,7 +459,7 @@ export const seed = async ({
     collection: 'orders',
     data: {
       amount: 7499,
-      currency: 'USD',
+      currency: 'SGD',
       customer: customer.id,
       shippingAddress: baseAddressUSData,
       items: [
@@ -483,7 +483,7 @@ export const seed = async ({
     collection: 'orders',
     data: {
       amount: 7499,
-      currency: 'USD',
+      currency: 'SGD',
       customer: customer.id,
       shippingAddress: baseAddressUSData,
       items: [

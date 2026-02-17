@@ -1,19 +1,19 @@
-import type { Product, Variant } from '@/payload-types'
+import type { Product } from '@/payload-types'
 
-import Link from 'next/link'
-import React from 'react'
-import clsx from 'clsx'
 import { Media } from '@/components/Media'
 import { Price } from '@/components/Price'
+import clsx from 'clsx'
+import Link from 'next/link'
+import React from 'react'
 
 type Props = {
   product: Partial<Product>
 }
 
 export const ProductGridItem: React.FC<Props> = ({ product }) => {
-  const { gallery, priceInUSD, title } = product
+  const { gallery, priceInSGD, title } = product
 
-  let price = priceInUSD
+  let price = priceInSGD
 
   const variants = product.variants?.docs
 
@@ -22,10 +22,10 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
     if (
       variant &&
       typeof variant === 'object' &&
-      variant?.priceInUSD &&
-      typeof variant.priceInUSD === 'number'
+      variant?.priceInSGD &&
+      typeof variant.priceInSGD === 'number'
     ) {
-      price = variant.priceInUSD
+      price = variant.priceInSGD
     }
   }
 

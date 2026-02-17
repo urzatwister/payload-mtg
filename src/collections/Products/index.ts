@@ -1,7 +1,6 @@
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
-import { slugField } from 'payload'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { CollectionOverride } from '@payloadcms/plugin-ecommerce/types'
 import {
@@ -18,13 +17,13 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
-import { DefaultDocumentIDType, Where } from 'payload'
+import { DefaultDocumentIDType, slugField, Where } from 'payload'
 
 export const ProductsCollection: CollectionOverride = ({ defaultCollection }) => ({
   ...defaultCollection,
   admin: {
     ...defaultCollection?.admin,
-    defaultColumns: ['title', 'enableVariants', '_status', 'variants.variants'],
+    defaultColumns: ['title', 'setName', 'rarity', 'collectorNumber', '_status'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -49,11 +48,27 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
     variants: true,
     enableVariants: true,
     gallery: true,
-    priceInUSD: true,
+    priceInSGD: true,
     inventory: true,
     meta: true,
+    scryfallId: true,
+    setName: true,
+    setCode: true,
+    rarity: true,
+    manaCost: true,
+    cardType: true,
+    collectorNumber: true,
   },
   fields: [
+    {
+      name: 'scryfallSearch',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/ScryfallSearch#ScryfallSearch',
+        },
+      },
+    },
     { name: 'title', type: 'text', required: true },
     {
       type: 'tabs',
@@ -139,6 +154,126 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
             },
           ],
           label: 'Content',
+        },
+        {
+          label: 'Card Details',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'scryfallId',
+                  type: 'text',
+                  label: 'Scryfall ID',
+                  admin: {
+                    readOnly: true,
+                    description: 'Auto-populated from Scryfall search',
+                  },
+                },
+                {
+                  name: 'collectorNumber',
+                  type: 'text',
+                  label: 'Collector Number',
+                  admin: {
+                    readOnly: true,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'setName',
+                  type: 'text',
+                  label: 'Set Name',
+                  admin: {
+                    readOnly: true,
+                  },
+                },
+                {
+                  name: 'setCode',
+                  type: 'text',
+                  label: 'Set Code',
+                  admin: {
+                    readOnly: true,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'rarity',
+                  type: 'select',
+                  label: 'Rarity',
+                  options: [
+                    { label: 'Common', value: 'common' },
+                    { label: 'Uncommon', value: 'uncommon' },
+                    { label: 'Rare', value: 'rare' },
+                    { label: 'Mythic', value: 'mythic' },
+                    { label: 'Special', value: 'special' },
+                    { label: 'Bonus', value: 'bonus' },
+                  ],
+                  admin: {
+                    readOnly: true,
+                  },
+                },
+                {
+                  name: 'manaCost',
+                  type: 'text',
+                  label: 'Mana Cost',
+                  admin: {
+                    readOnly: true,
+                  },
+                },
+              ],
+            },
+            {
+              name: 'cardType',
+              type: 'text',
+              label: 'Card Type',
+              admin: {
+                readOnly: true,
+              },
+            },
+            {
+              name: 'isFoil',
+              type: 'checkbox',
+              label: 'Foil',
+              defaultValue: false,
+              admin: {
+                readOnly: true,
+                description: 'Auto-populated from Scryfall search',
+              },
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'ckPriceUSD',
+                  type: 'number',
+                  label: 'Card Kingdom Price (USD cents)',
+                  admin: {
+                    readOnly: true,
+                    description: 'Auto-populated from Card Kingdom pricelist',
+                  },
+                },
+                {
+                  name: 'ckPriceLastUpdated',
+                  type: 'date',
+                  label: 'CK Price Last Updated',
+                  admin: {
+                    readOnly: true,
+                    date: {
+                      pickerAppearance: 'dayAndTime',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           fields: [

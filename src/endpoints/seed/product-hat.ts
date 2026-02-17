@@ -1,5 +1,4 @@
-import type { Category, Product, VariantOption, VariantType } from '@/payload-types'
-import type { Media } from '@/payload-types'
+import type { Category, Media, Product, VariantType } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 type ProductArgs = {
@@ -61,8 +60,8 @@ export const productHatData: (args: ProductArgs) => RequiredDataFromCollectionSl
     gallery: [{ image: galleryImage }],
     title: 'Hat',
     slug: 'hat',
-    priceInUSDEnabled: true,
-    priceInUSD: 2500,
+    priceInSGDEnabled: true,
+    priceInSGD: 2500,
     relatedProducts: relatedProducts,
   }
 }

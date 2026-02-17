@@ -16,6 +16,10 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      {
+        hostname: 'cards.scryfall.io',
+        protocol: 'https',
+      },
     ],
   },
   reactStrictMode: true,

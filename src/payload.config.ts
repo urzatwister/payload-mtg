@@ -14,6 +14,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { scheduleCardKingdomSync } from '@/utilities/cardKingdomCron'
+
 import { Categories } from '@/collections/Categories'
 import { Media } from '@/collections/Media'
 import { Pages } from '@/collections/Pages'
@@ -81,6 +83,9 @@ export default buildConfig({
   //email: nodemailerAdapter(),
   endpoints: [],
   globals: [Header, Footer],
+  onInit: async (payload) => {
+    scheduleCardKingdomSync(payload)
+  },
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

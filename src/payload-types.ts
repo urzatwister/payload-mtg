@@ -251,7 +251,7 @@ export interface Order {
   transactions?: (number | Transaction)[] | null;
   status?: OrderStatus;
   amount?: number | null;
-  currency?: 'USD' | null;
+  currency?: 'SGD' | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -285,6 +285,25 @@ export interface Product {
       }[]
     | null;
   layout?: (CallToActionBlock | ContentBlock | MediaBlock)[] | null;
+  /**
+   * Auto-populated from Scryfall search
+   */
+  scryfallId?: string | null;
+  collectorNumber?: string | null;
+  setName?: string | null;
+  setCode?: string | null;
+  rarity?: ('common' | 'uncommon' | 'rare' | 'mythic' | 'special' | 'bonus') | null;
+  manaCost?: string | null;
+  cardType?: string | null;
+  /**
+   * Auto-populated from Scryfall search
+   */
+  isFoil?: boolean | null;
+  /**
+   * Auto-populated from Card Kingdom pricelist
+   */
+  ckPriceUSD?: number | null;
+  ckPriceLastUpdated?: string | null;
   inventory?: number | null;
   enableVariants?: boolean | null;
   variantTypes?: (number | VariantType)[] | null;
@@ -293,8 +312,8 @@ export interface Product {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  priceInUSDEnabled?: boolean | null;
-  priceInUSD?: number | null;
+  priceInSGDEnabled?: boolean | null;
+  priceInSGD?: number | null;
   relatedProducts?: (number | Product)[] | null;
   meta?: {
     title?: string | null;
@@ -883,8 +902,8 @@ export interface Variant {
   product: number | Product;
   options: (number | VariantOption)[];
   inventory?: number | null;
-  priceInUSDEnabled?: boolean | null;
-  priceInUSD?: number | null;
+  priceInSGDEnabled?: boolean | null;
+  priceInSGD?: number | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -928,7 +947,7 @@ export interface Transaction {
   order?: (number | null) | Order;
   cart?: (number | null) | Cart;
   amount?: number | null;
-  currency?: 'USD' | null;
+  currency?: 'SGD' | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -951,7 +970,7 @@ export interface Cart {
   purchasedAt?: string | null;
   status?: ('active' | 'purchased' | 'abandoned') | null;
   subtotal?: number | null;
-  currency?: 'USD' | null;
+  currency?: 'SGD' | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1562,8 +1581,8 @@ export interface VariantsSelect<T extends boolean = true> {
   product?: T;
   options?: T;
   inventory?: T;
-  priceInUSDEnabled?: T;
-  priceInUSD?: T;
+  priceInSGDEnabled?: T;
+  priceInSGD?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1615,12 +1634,22 @@ export interface ProductsSelect<T extends boolean = true> {
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
       };
+  scryfallId?: T;
+  collectorNumber?: T;
+  setName?: T;
+  setCode?: T;
+  rarity?: T;
+  manaCost?: T;
+  cardType?: T;
+  isFoil?: T;
+  ckPriceUSD?: T;
+  ckPriceLastUpdated?: T;
   inventory?: T;
   enableVariants?: T;
   variantTypes?: T;
   variants?: T;
-  priceInUSDEnabled?: T;
-  priceInUSD?: T;
+  priceInSGDEnabled?: T;
+  priceInSGD?: T;
   relatedProducts?: T;
   meta?:
     | T

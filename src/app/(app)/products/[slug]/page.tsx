@@ -4,15 +4,15 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { GridTileImage } from '@/components/Grid/tile'
 import { Gallery } from '@/components/product/Gallery'
 import { ProductDescription } from '@/components/product/ProductDescription'
+import { Button } from '@/components/ui/button'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { ChevronLeftIcon } from 'lucide-react'
+import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { getPayload } from 'payload'
 import React, { Suspense } from 'react'
-import { Button } from '@/components/ui/button'
-import { ChevronLeftIcon } from 'lucide-react'
-import { Metadata } from 'next'
 
 type Args = {
   params: Promise<{
@@ -37,15 +37,15 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
     description: product.meta?.description || '',
     openGraph: seoImage?.url
       ? {
-          images: [
-            {
-              alt: seoImage?.alt,
-              height: seoImage.height!,
-              url: seoImage?.url,
-              width: seoImage.width!,
-            },
-          ],
-        }
+        images: [
+          {
+            alt: seoImage?.alt,
+            height: seoImage.height!,
+            url: seoImage?.url,
+            width: seoImage.width!,
+          },
+        ],
+      }
       : null,
     robots: {
       follow: canIndex,
@@ -76,17 +76,17 @@ export default async function ProductPage({ params }: Args) {
   const metaImage = typeof product.meta?.image === 'object' ? product.meta?.image : undefined
   const hasStock = product.enableVariants
     ? product?.variants?.docs?.some((variant) => {
-        if (typeof variant !== 'object') return false
-        return variant.inventory && variant?.inventory > 0
-      })
+      if (typeof variant !== 'object') return false
+      return variant.inventory && variant?.inventory > 0
+    })
     : product.inventory! > 0
 
-  let price = product.priceInUSD
+  let price = product.priceInSGD
 
   if (product.enableVariants && product?.variants?.docs?.length) {
     price = product?.variants?.docs?.reduce((acc, variant) => {
-      if (typeof variant === 'object' && variant?.priceInUSD && acc && variant?.priceInUSD > acc) {
-        return variant.priceInUSD
+      if (typeof variant === 'object' && variant?.priceInSGD && acc && variant?.priceInSGD > acc) {
+        return variant.priceInSGD
       }
       return acc
     }, price)
@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: Args) {
       '@type': 'AggregateOffer',
       availability: hasStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       price: price,
-      priceCurrency: 'usd',
+      priceCurrency: 'sgd',
     },
   }
 
@@ -169,7 +169,7 @@ function RelatedProducts({ products }: { products: Product[] }) {
             <Link className="relative h-full w-full" href={`/products/${product.slug}`}>
               <GridTileImage
                 label={{
-                  amount: product.priceInUSD!,
+                  amount: product.priceInSGD!,
                   title: product.title,
                 }}
                 media={product.meta?.image as Media}
@@ -207,7 +207,7 @@ const queryProductBySlug = async ({ slug }: { slug: string }) => {
     populate: {
       variants: {
         title: true,
-        priceInUSD: true,
+        priceInSGD: true,
         inventory: true,
         options: true,
       },
